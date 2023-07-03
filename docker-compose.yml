@@ -18,8 +18,8 @@ services:
       - /data/db:/var/lib/mysql
   api:
     build:
-      dockerfile: ./adjutor-api/dev.Dockerfile
-      context: ./adjutor-api
+      dockerfile: ./dev.Dockerfile
+      context: ./
     volumes:
       - ./adjutor-api:/app
     ports:
