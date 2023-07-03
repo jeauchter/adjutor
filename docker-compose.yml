@@ -17,6 +17,8 @@ services:
       - .docker/setup.sql:/docker-entrypoint-initdb.d/setup.sql
       - /data/db:/var/lib/mysql
   api:
+    depends_on:
+      - db
     build:
       dockerfile: ./dev.Dockerfile
       context: ./
@@ -24,6 +26,29 @@ services:
       - ./adjutor-api:/app
     ports:
       - 8080:8080
+    networks:
+      - adjutor
+  ui:
+    depends_on:
+      - db
+      - api
+    build:
+      dockerfile: ./dev.ui.Dockerfile
+      context: ./
+    volumes:
+      - ./adjutor-ui:/app
+    networks:
+      - adjutor
+  nginx:
+    depends_on:
+      - api
+      - ui
+    restart: always
+    build:
+      dockerfile: ./dev.nginx.Dockerfile
+      context: ./
+    ports:
+      - "80:80" 
     networks:
       - adjutor
 networks:
