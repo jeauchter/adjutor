@@ -32,6 +32,8 @@ services:
     depends_on:
       - db
       - api
+    environment:
+      - WDS_SOCKET_PORT=0
     build:
       dockerfile: ./dev.ui.Dockerfile
       context: ./
